@@ -1,4 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab1;
+using Itmo.ObjectOrientedProgramming.Lab1.Results.Entities;
+using Itmo.ObjectOrientedProgramming.Lab1.Results.Models;
+using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 using Xunit;
 
 namespace Lab1.Tests;
@@ -22,9 +24,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Success);
-        Assert.Equal("Successfully ended", message);
+        Assert.IsType<Success>(myResult);
     }
 
     [Fact]
@@ -44,10 +44,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-
-        Assert.True(myResult is Failure);
-        Assert.Equal("Speed of train more than speed limit", message);
+        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -70,10 +67,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-
-        Assert.True(myResult is Success);
-        Assert.Equal("Successfully ended", message);
+        Assert.IsType<Success>(myResult);
     }
 
     [Fact]
@@ -94,9 +88,7 @@ public class UnitTests
         myRoute.CreateAndAddStation(stationSpeedLimit, passengers);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Failure);
-        Assert.Equal("Speed of train more than speed limit", message);
+        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -121,9 +113,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Failure);
-        Assert.Equal("Speed of train more than speed limit", message);
+        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -159,9 +149,7 @@ public class UnitTests
         Result myResult = myRoute.StartTrainRide();
         myRoute.CreateAndAddPowerPath(lenFourthPowerPath, forceFouthPowerPath);
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Success);
-        Assert.Equal("Successfully ended", message);
+        Assert.IsType<Success>(myResult);
     }
 
     [Fact]
@@ -178,9 +166,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFirstPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Failure);
-        Assert.Equal("Train stopped on half way", message);
+        Assert.IsType<Failure.StoppedOnHalfWay>(myResult);
     }
 
     [Fact]
@@ -201,8 +187,6 @@ public class UnitTests
         myRoute.CreateAndAddPowerPath(lenFSecondPowerPath, forceSecondPowerPath);
         Result myResult = myRoute.StartTrainRide();
 
-        string message = myResult.ShowMessage();
-        Assert.True(myResult is Failure);
-        Assert.Equal("Train stopped on half way", message);
+        Assert.IsType<Failure.StoppedOnHalfWay>(myResult);
     }
 }
