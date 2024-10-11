@@ -1,5 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Entities;
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Models;
+using Itmo.ObjectOrientedProgramming.Lab1.Results;
 using Itmo.ObjectOrientedProgramming.Lab1.Trains;
 using Xunit;
 
@@ -24,7 +23,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Success>(myResult);
+        Assert.IsType<Result.Success>(myResult);
     }
 
     [Fact]
@@ -44,7 +43,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
+        Assert.IsType<Result.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -67,7 +66,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Success>(myResult);
+        Assert.IsType<Result.Success>(myResult);
     }
 
     [Fact]
@@ -88,7 +87,7 @@ public class UnitTests
         myRoute.CreateAndAddStation(stationSpeedLimit, passengers);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
+        Assert.IsType<Result.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -113,7 +112,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenSecondPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Failure.LimitOfSpeedError>(myResult);
+        Assert.IsType<Result.LimitOfSpeedError>(myResult);
     }
 
     [Fact]
@@ -149,7 +148,7 @@ public class UnitTests
         Result myResult = myRoute.StartTrainRide();
         myRoute.CreateAndAddPowerPath(lenFourthPowerPath, forceFouthPowerPath);
 
-        Assert.IsType<Success>(myResult);
+        Assert.IsType<Result.Success>(myResult);
     }
 
     [Fact]
@@ -166,7 +165,7 @@ public class UnitTests
         myRoute.CreateAndAddNotPowerPath(lenFirstPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Failure.StoppedOnHalfWay>(myResult);
+        Assert.IsType<Result.StoppedOnHalfWay>(myResult);
     }
 
     [Fact]
@@ -187,6 +186,6 @@ public class UnitTests
         myRoute.CreateAndAddPowerPath(lenFSecondPowerPath, forceSecondPowerPath);
         Result myResult = myRoute.StartTrainRide();
 
-        Assert.IsType<Failure.StoppedOnHalfWay>(myResult);
+        Assert.IsType<Result.StoppedOnHalfWay>(myResult);
     }
 }

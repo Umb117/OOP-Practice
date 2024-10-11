@@ -1,14 +1,14 @@
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Entities;
+using Itmo.ObjectOrientedProgramming.Lab1.Results;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Trains.Services;
 
 public interface ITrain
 {
-    public Result ApplyForce(int force);
+    Result ApplyForce(int force);
 
-    public Result GoTroughRailway(int lenghtOfCurrentPath);
+    Result GoTroughRailway(int lenghtOfCurrentPath);
 
-    public Result PassengersMoving(int passengers);
+    Result PassengersMoving(int passengers);
 
-    public Result SlowDown(int limit);
+    Result SlowDown(int limit);
 }

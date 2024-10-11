@@ -1,7 +1,6 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab1.Paths.Entities;
 using Itmo.ObjectOrientedProgramming.Lab1.Paths.Models;
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Entities;
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Models;
+using Itmo.ObjectOrientedProgramming.Lab1.Results;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Trains;
 
@@ -47,12 +46,12 @@ public class Route
     {
         if (_train == null)
         {
-            return new Failure.TrainIsNull();
+            return new Result.TrainIsNull();
         }
 
         if (_partsOfRoute.Count == 0)
         {
-            return new Failure.RouteIsEmpty();
+            return new Result.RouteIsEmpty();
         }
 
         int timeOfRoute = 0;
@@ -60,18 +59,18 @@ public class Route
         while (_partsOfRoute.Count > 0)
         {
             PartOfRoute part = _partsOfRoute.Dequeue();
-            Result intremediateResult = part.TrainGoThroughPartOfRoute(_train);
+            Result intermediateResult = part.TrainGoThroughPartOfRoute(_train);
 
-            if (intremediateResult is Failure)
+            if (intermediateResult is not Result.Success)
             {
-                return intremediateResult;
+                return intermediateResult;
             }
 
-            timeOfRoute += intremediateResult.ShowTimeOfRoute();
+            timeOfRoute += intermediateResult.ShowTimeOfRoute();
             _train.ResetSpeedBoost();
         }
 
         Result resultSlowDown = _train.SlowDown(_speedLimit);
-        return resultSlowDown is Success ? new Success(timeOfRoute) : resultSlowDown;
+        return resultSlowDown is Result.Success ? new Result.Success(timeOfRoute) : resultSlowDown;
     }
 }

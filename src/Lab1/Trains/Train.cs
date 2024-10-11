@@ -1,5 +1,4 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab1.Results.Entities;
-using Itmo.ObjectOrientedProgramming.Lab1.Results.Models;
+﻿using Itmo.ObjectOrientedProgramming.Lab1.Results;
 using Itmo.ObjectOrientedProgramming.Lab1.Trains.Services;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Trains;
@@ -25,11 +24,11 @@ public class Train : ITrain
     {
         if (force > _maxAvailbleForce)
         {
-            return new Failure.ForceMoreThanAllowed();
+            return new Result.ForceMoreThanAllowed();
         }
 
         _speedBoost = force / _weight;
-        return new Success(0);
+        return new Result.Success(0);
     }
 
     public void ResetSpeedBoost()
@@ -46,7 +45,7 @@ public class Train : ITrain
             _speed += _speedBoost * _accuracy;
             if (_speed <= 0)
             {
-                return new Failure.StoppedOnHalfWay();
+                return new Result.StoppedOnHalfWay();
             }
 
             int passedWay = _speed * _accuracy;
@@ -54,18 +53,18 @@ public class Train : ITrain
             timeInRide += _accuracy;
         }
 
-        return new Success(timeInRide);
+        return new Result.Success(timeInRide);
     }
 
     public Result PassengersMoving(int passengers)
     {
         int timeInRide = 0;
         timeInRide += passengers;
-        return new Success(timeInRide);
+        return new Result.Success(timeInRide);
     }
 
     public Result SlowDown(int limit)
     {
-        return limit < _speed ? new Failure.LimitOfSpeedError() : new Success(0);
+        return limit < _speed ? new Result.LimitOfSpeedError() : new Result.Success(0);
     }
 }
