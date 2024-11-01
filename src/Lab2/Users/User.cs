@@ -3,19 +3,15 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Users;
 public class User : IUser
 {
     private static int _globalId;
-    private int id;
 
-    public string Name { get; }
+    public int Id { get; init; }
+
+    public string Name { get; private set; }
 
     public User(string name)
     {
-        id = _globalId++;
+        Id = _globalId;
         Name = name;
-        IncrementId();
-    }
-
-    private static void IncrementId()
-    {
         _globalId++;
     }
 }

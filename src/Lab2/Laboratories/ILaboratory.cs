@@ -1,10 +1,20 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab2.Laboratories;
 
-public interface ILaboratory
+public interface ILaboratory : IPrototype<ILaboratory>
 {
-    public Laboratory Clone();
+    public int Id { get; init; }
 
-    public void Edit(int id, string? newName, string? newDescription);
+    public int ScoresAmount { get; init; }
 
-    public void AddCriterias(string newCriteria, int newScore);
+    public int? OriginalId { get; init; }
+
+    public string Name { get; }
+
+    public string Criterias { get; }
+
+    public string Description { get; }
+
+    public Result Edit(string? newName = null, string? newDescription = null, string? newCriterias = null);
 }

@@ -2,12 +2,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly Dictionary<int, T> _repo;
-
-    public Repository()
-    {
-        _repo = new Dictionary<int, T>();
-    }
+    private readonly Dictionary<int, T> _repo = [];
 
     public void AddEntity(int id, T entity)
     {

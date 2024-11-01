@@ -1,12 +1,30 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Laboratories;
+using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
+using Itmo.ObjectOrientedProgramming.Lab2.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
-public interface ISubject
+public interface ISubject : IPrototype<ISubject>
 {
-    public ISubject Clone();
+    public int Id { get; init; }
 
-    public void EditName(string newName);
+    public int AuthorId { get; init; }
 
-    public void EditLabs(string newDescription);
+    public int? OriginalId { get; init; }
 
-    public void EditLectures(string newContent);
+    public IList<ILaboratory> Labs { get; }
+
+    public IList<ILecture> Lectures { get; }
+
+    public int Scores { get; }
+
+    public string Name { get; }
+
+    public Result Edit(string? newName, int? newScores);
+
+    public Result EditLectures(
+        int lectureIndex,
+        string? newName,
+        string? newDescription,
+        string? newContent);
 }

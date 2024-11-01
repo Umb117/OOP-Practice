@@ -1,13 +1,11 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Laboratories;
-using Itmo.ObjectOrientedProgramming.Lab2.Lections;
+using Itmo.ObjectOrientedProgramming.Lab2.Results;
+using Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.EducationalPrograms;
 
 public interface IEducationalProgram
 {
-    public void Edit(int id, string? newName, string? newSemester);
+    public Result AddLab(int semester, ISubject newSubject);
 
-    public void AddLab(int id, ILaboratory newLab);
-
-    public void AddLection(int id, ILection newLection);
+    public Result Edit(string? newName);
 }

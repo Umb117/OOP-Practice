@@ -1,62 +1,79 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Laboratories;
-using Itmo.ObjectOrientedProgramming.Lab2.Lections;
+using Itmo.ObjectOrientedProgramming.Lab2.Results;
+using Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.EducationalPrograms;
 
 public class EducationalProgram : IEducationalProgram
 {
     private static int _generalId;
-    private readonly int _id;
-    private readonly int _authorId;
-    private readonly List<ILaboratory> _labs;
-    private readonly List<ILection> _lections;
 
-    private string _name;
-    private string _semester;
+    public static EducationalProgramBuilder Builder => new EducationalProgramBuilder();
 
-    public EducationalProgram(string name, int authorId, string semester)
+    public int Id { get; init; }
+
+    public int? AuthorId { get; init; }
+
+    public Dictionary<int, List<ISubject>> Subjects { get; init; }
+
+    public string Name { get; private set; }
+
+    private EducationalProgram(string name, Dictionary<int, List<ISubject>> subjects, int authorId)
     {
-        _id = _generalId;
-        _name = name;
-        _semester = semester;
-        _authorId = authorId;
-        _labs = new List<ILaboratory>();
-        _lections = new List<ILection>();
+        Id = _generalId;
+        Name = name;
+        Subjects = subjects;
+        AuthorId = authorId;
         _generalId++;
     }
 
-    public void AddLab(ILaboratory newLab)
+    public class EducationalProgramBuilder : IEducationalProgramBuilder
     {
-        _labs.Add(newLab);
+        private string? _name;
+        private Dictionary<int, List<ISubject>>? _subjects;
+
+        public IEducationalProgramBuilder AddName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
+        public IEducationalProgramBuilder AddSubjects(Dictionary<int, List<ISubject>> subjects)
+        {
+            _subjects = subjects;
+            return this;
+        }
+
+        public Result Build()
+        {
+            if (CurrentUser.CurrUser is null) return new Result.NotAuthorizedUser();
+            return new Result.SuccessWithEntity<EducationalProgram>(new EducationalProgram(
+                _name ?? throw new ArgumentNullException(),
+                _subjects ?? throw new ArgumentNullException(),
+                CurrentUser.CurrUser.Id));
+        }
     }
 
-    public void AddLection(ILection newLection)
+    public Result AddLab(int semester, ISubject newSubject)
     {
-        _lections.Add(newLection);
+        if (!IsAuthor()) return new Result.NotAuthor();
+
+        Subjects[semester].Add(newSubject);
+        return new Result.Success();
     }
 
-    public void Edit(int id, string? newName, string? newSemester)
+    public Result Edit(string? newName)
     {
-        if (!IsAutor(id)) return;
+        if (!IsAuthor()) return new Result.NotAuthor();
 
-        if (newName == null && newSemester == null) return;
+        if (newName == null) return new Result.Success();
 
-        if (newName != null) EditName(newName);
-        if (newSemester != null) EditSemester(newSemester);
+        Name = newName;
+        return new Result.Success();
     }
 
-    private bool IsAutor(int id)
+    private bool IsAuthor()
     {
-        return _authorId == id;
-    }
-
-    private void EditName(string newName)
-    {
-        _name = newName;
-    }
-
-    private void EditSemester(string newSemester)
-    {
-        _semester = newSemester;
+        if (CurrentUser.CurrUser is null) return false;
+        return AuthorId == CurrentUser.CurrUser.Id;
     }
 }

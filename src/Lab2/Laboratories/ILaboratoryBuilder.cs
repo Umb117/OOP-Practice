@@ -1,3 +1,5 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab2.Laboratories;
 
 public interface ILaboratoryBuilder
@@ -8,9 +10,7 @@ public interface ILaboratoryBuilder
 
     public ILaboratoryBuilder AddScoresAmount(int scoresAmount);
 
-    public ILaboratoryBuilder AddAuthorId(int authorId);
+    public ILaboratoryBuilder AddCriterias(string criterias);
 
-    public ILaboratoryBuilder AddCriteria(string criteria, int scores);
-
-    public Laboratory Build();
+    public Result Build();
 }
