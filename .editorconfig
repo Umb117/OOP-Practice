@@ -12,6 +12,8 @@ dotnet_diagnostic.ide0002.severity = warning
 dotnet_diagnostic.sa0001.severity = none
 dotnet_diagnostic.ide0003.severity = warning
 dotnet_diagnostic.ide0009.severity = warning
+dotnet_diagnostic.IDE0220.severity = error
+
 dotnet_style_qualification_for_field = false:warning
 dotnet_style_qualification_for_property = false:warning
 dotnet_style_qualification_for_method = false:warning
