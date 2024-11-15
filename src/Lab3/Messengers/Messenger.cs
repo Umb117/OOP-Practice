@@ -2,20 +2,20 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Messengers;
 
 public class Messenger : IMessenger
 {
-    public string Text { get; set; }
+    private string _text;
 
     public Messenger(string text)
     {
-        Text = text;
+        _text = text;
     }
 
     public void PrintText()
     {
-        Console.WriteLine("messanger: {0}", Text);
+        Console.WriteLine("messanger: {0}", _text);
     }
 
     public void GetMessage(Message message)
     {
-        Text = message.Text;
+        _text = message.Text;
     }
 }

@@ -6,7 +6,9 @@ public interface IDisplay
 {
     Color Color { get; set; }
 
-    string Text { get; set; }
+    string Text { get; }
+
+    public void SetDisplayText(string text);
 
     void PrintText();
 

@@ -4,21 +4,18 @@ public class MessengerProxy : IAdresee, IMessenger
 {
     private readonly IMessenger _messenger;
 
-    public string Text { get; set; }
+    private readonly int _minImportanceLevel;
 
-    public int MinImportanceLevel { get; set; }
+    private readonly bool _logging;
 
-    public bool Logging { get; set; }
-
-    public ILogger Logger { get; set; }
+    private readonly ILogger _logger;
 
     public MessengerProxy(IMessenger messenger, ILogger logger, int minImportanceLevel = 0, bool logging = false)
     {
         _messenger = messenger;
-        Text = messenger.Text;
-        MinImportanceLevel = minImportanceLevel;
-        Logging = logging;
-        Logger = logger;
+        _minImportanceLevel = minImportanceLevel;
+        _logging = logging;
+        _logger = logger;
     }
 
     public void GetMessage(Message message)
@@ -26,9 +23,9 @@ public class MessengerProxy : IAdresee, IMessenger
         if (ImportanceFilter(message))
         {
             _messenger.GetMessage(message);
-            if (Logging)
+            if (_logging)
             {
-                Logger.Log(message);
+                _logger.Log(message);
             }
         }
     }
@@ -40,6 +37,6 @@ public class MessengerProxy : IAdresee, IMessenger
 
     private bool ImportanceFilter(Message message)
     {
-        return MinImportanceLevel <= message.ImportanceLevel;
+        return _minImportanceLevel <= message.ImportanceLevel;
     }
 }

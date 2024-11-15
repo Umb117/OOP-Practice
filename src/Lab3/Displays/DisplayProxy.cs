@@ -6,18 +6,18 @@ public class DisplayProxy : IDisplayDriver, IAdresee
 {
     private readonly IDisplayDriver _displayDriver;
 
-    public bool Logging { get; set; }
+    private readonly int _minImportanceLevel;
 
-    public ILogger Logger { get; set; }
+    private readonly bool _logging;
 
-    public int MinImportanceLevel { get; set; }
+    private readonly ILogger _logger;
 
     public DisplayProxy(IDisplayDriver displayDriver, ILogger logger, int minImportanceLevel = 0, bool logging = false)
     {
         _displayDriver = displayDriver;
-        MinImportanceLevel = minImportanceLevel;
-        Logging = logging;
-        Logger = logger;
+        _minImportanceLevel = minImportanceLevel;
+        _logging = logging;
+        _logger = logger;
     }
 
     public void ClearDisplay()
@@ -45,15 +45,15 @@ public class DisplayProxy : IDisplayDriver, IAdresee
         if (ImportanceFilter(message))
         {
             _displayDriver.GetMessage(message);
-            if (Logging)
+            if (_logging)
             {
-                Logger.Log(message);
+                _logger.Log(message);
             }
         }
     }
 
     private bool ImportanceFilter(Message message)
     {
-        return MinImportanceLevel <= message.ImportanceLevel;
+        return _minImportanceLevel <= message.ImportanceLevel;
     }
 }

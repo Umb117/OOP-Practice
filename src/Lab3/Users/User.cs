@@ -6,9 +6,12 @@ public class User : IUser
 {
     public string Name { get; init; }
 
-    public Queue<Message> UnReadMessages { get; init; } = new();
+    public IReadOnlyCollection<Message> UnReadMessages => _unReadMessages.ToList().AsReadOnly();
 
-    public Queue<Message> ReadMessages { get; init; } = new();
+    public IReadOnlyCollection<Message> ReadMessages => _readMessages.ToList().AsReadOnly();
+
+    private readonly Queue<Message> _unReadMessages = new();
+    private readonly Queue<Message> _readMessages = new();
 
     public User(string name)
     {
@@ -19,8 +22,8 @@ public class User : IUser
     {
         if (UnReadMessages.Count != 0)
         {
-            Message message = UnReadMessages.Dequeue();
-            ReadMessages.Enqueue(message);
+            Message message = _unReadMessages.Dequeue();
+            _readMessages.Enqueue(message);
             return new Result.ReadSuccess();
         }
 
@@ -29,6 +32,6 @@ public class User : IUser
 
     public void GetMessage(Message message)
     {
-        UnReadMessages.Enqueue(message);
+        _unReadMessages.Enqueue(message);
     }
 }

@@ -2,23 +2,16 @@ namespace Itmo.ObjectOrientedProgramming.Lab3;
 
 public class GroupAdressees : IAdresee
 {
-    public int MinImportanceLevel { get; set; }
-
-    public bool Logging { get; set; }
-
-    public ILogger Logger { get; set; }
-
-    public IList<IAdresee> Adressees { get; }
+    private readonly IList<IAdresee> _adressees;
 
     public GroupAdressees(IList<IAdresee> adressees)
     {
-        Adressees = adressees;
-        Logger = new Logger();
+        _adressees = adressees;
     }
 
     public void GetMessage(Message message)
     {
-        foreach (IAdresee adresee in Adressees)
+        foreach (IAdresee adresee in _adressees)
         {
             adresee.GetMessage(message);
         }
@@ -26,11 +19,11 @@ public class GroupAdressees : IAdresee
 
     public void Add(IAdresee adresee)
     {
-        Adressees.Add(adresee);
+        _adressees.Add(adresee);
     }
 
     public void Remove(IAdresee adresee)
     {
-        Adressees.Remove(adresee);
+        _adressees.Remove(adresee);
     }
 }

@@ -6,7 +6,7 @@ public class Display : IDisplay
 {
     public Color Color { get; set; }
 
-    public string Text { get; set; }
+    public string Text { get; private set; }
 
     public Display(string text = "")
     {
@@ -20,6 +20,11 @@ public class Display : IDisplay
         using var sw = new StreamWriter("display.txt", false);
         sw.WriteLine(Text);
         sw.Close();
+    }
+
+    public void SetDisplayText(string text)
+    {
+        Text = text;
     }
 
     public void GetMessage(Message message)

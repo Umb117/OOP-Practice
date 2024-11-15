@@ -4,7 +4,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Displays;
 
 public class DisplayDriver : IDisplayDriver
 {
-    protected IDisplay Display { get; init; }
+    private IDisplay Display { get; init; }
 
     public DisplayDriver(IDisplay display)
     {
@@ -18,7 +18,7 @@ public class DisplayDriver : IDisplayDriver
 
     public void SetDisplayText(string text)
     {
-        Display.Text = text;
+        Display.SetDisplayText(text);
     }
 
     public void SetDisplayColor(Color color)

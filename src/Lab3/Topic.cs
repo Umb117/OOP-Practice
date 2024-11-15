@@ -4,12 +4,14 @@ public class Topic
 {
     public string Name { get; set; }
 
-    public IList<IAdresee> Addressees { get; }
+    public IReadOnlyCollection<IAdresee> Addressees => _addressees.AsReadOnly();
+
+    private readonly IList<IAdresee> _addressees;
 
     public Topic(string name, IList<IAdresee> addresses)
     {
         Name = name;
-        Addressees = addresses;
+        _addressees = addresses;
     }
 
     public void SendToAdressees(Message message)
@@ -22,6 +24,6 @@ public class Topic
 
     public void AddAdressee(IAdresee adressee)
     {
-        Addressees.Add(adressee);
+        _addressees.Add(adressee);
     }
 }

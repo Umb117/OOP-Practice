@@ -6,9 +6,9 @@ public interface IUser
 {
     string Name { get; }
 
-    public Queue<Message> UnReadMessages { get; init; }
+    public IReadOnlyCollection<Message> UnReadMessages { get; }
 
-    public Queue<Message> ReadMessages { get; init; }
+    public IReadOnlyCollection<Message> ReadMessages { get; }
 
     public Result ReadMessage();
 

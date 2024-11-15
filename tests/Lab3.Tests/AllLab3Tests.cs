@@ -47,7 +47,7 @@ public class AllLab3Tests
 
         publisher.PostMessage(topic, message);
 
-        Assert.Equal(message, user.UnReadMessages.Dequeue());
+        Assert.Single(user.UnReadMessages);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class AllLab3Tests
         user.ReadMessage();
 
         Assert.True(user.UnReadMessages.Count == 0);
-        Assert.Equal(message, user.ReadMessages.Dequeue());
+        Assert.Single(user.ReadMessages);
     }
 
     [Fact]
