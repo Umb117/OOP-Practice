@@ -4,13 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Displays;
 
 public interface IDisplayDriver
 {
-    public void ClearDisplay();
+    void ClearDisplay();
 
-    public void SetDisplayText(string text);
+    void SetDisplayText(string text);
 
-    public void SetDisplayColor(Color color);
+    void SetDisplayColor(Color color);
 
-    public void PrintDisplayText();
+    void PrintDisplayText();
 
-    public void GetMessage(Message message);
+    void GetMessage(Message message);
 }

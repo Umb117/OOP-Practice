@@ -8,7 +8,7 @@ public interface IDisplay
 
     string Text { get; }
 
-    public void SetDisplayText(string text);
+    void SetDisplayText(string text);
 
     void PrintText();
 

@@ -6,11 +6,11 @@ public interface IUser
 {
     string Name { get; }
 
-    public IReadOnlyCollection<Message> UnReadMessages { get; }
+    IReadOnlyCollection<Message> UnReadMessages { get; }
 
-    public IReadOnlyCollection<Message> ReadMessages { get; }
+    IReadOnlyCollection<Message> ReadMessages { get; }
 
-    public Result ReadMessage();
+    Result ReadMessage();
 
     void GetMessage(Message message);
 }

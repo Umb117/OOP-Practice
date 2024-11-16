@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Displays;
 
 public class DisplayDriver : IDisplayDriver
 {
-    private IDisplay Display { get; init; }
+    private readonly IDisplay _display;
 
     public DisplayDriver(IDisplay display)
     {
-        Display = display;
+        _display = display;
     }
 
     public void ClearDisplay()
@@ -18,22 +18,22 @@ public class DisplayDriver : IDisplayDriver
 
     public void SetDisplayText(string text)
     {
-        Display.SetDisplayText(text);
+        _display.SetDisplayText(text);
     }
 
     public void SetDisplayColor(Color color)
     {
-        Display.Color = color;
+        _display.Color = color;
     }
 
     public void PrintDisplayText()
     {
         ClearDisplay();
-        Display.PrintText();
+        _display.PrintText();
     }
 
     public void GetMessage(Message message)
     {
-        Display.GetMessage(message);
+        _display.GetMessage(message);
     }
 }
