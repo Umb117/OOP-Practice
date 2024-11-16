@@ -4,11 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Displays;
 
 public interface IDisplay
 {
-    Color Color { get; set; }
+    Color Color { get; }
 
     string Text { get; }
 
     void SetDisplayText(string text);
+
+    public void SetDisplayColor(Color color);
 
     void PrintText();
 

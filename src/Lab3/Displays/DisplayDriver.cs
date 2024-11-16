@@ -23,7 +23,7 @@ public class DisplayDriver : IDisplayDriver
 
     public void SetDisplayColor(Color color)
     {
-        _display.Color = color;
+        _display.SetDisplayColor(color);
     }
 
     public void PrintDisplayText()

@@ -4,7 +4,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Displays;
 
 public class Display : IDisplay
 {
-    public Color Color { get; set; }
+    public Color Color { get; private set; }
 
     public string Text { get; private set; }
 
@@ -25,6 +25,11 @@ public class Display : IDisplay
     public void SetDisplayText(string text)
     {
         Text = text;
+    }
+
+    public void SetDisplayColor(Color color)
+    {
+        Color = color;
     }
 
     public void GetMessage(Message message)
