@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public interface ICommand
 {
-    Result Execute();
+    ResultType Execute();
 }

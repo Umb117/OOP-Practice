@@ -16,7 +16,7 @@ public class ConnectCommand : ICommand, IEquatable<ConnectCommand>
         _path = path;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         IFileSystem? fileSystem = _mode switch
         {
@@ -26,11 +26,11 @@ public class ConnectCommand : ICommand, IEquatable<ConnectCommand>
 
         if (fileSystem == null)
         {
-            return new Result.NoSuchSystem();
+            return new ResultType.NoSuchSystem();
         }
 
         _fileSystemContext.SetFileSystem(fileSystem);
-        return new Result.Success("Successfully connected to local filesystem");
+        return new ResultType.Success("Successfully connected to local filesystem");
     }
 
     public override bool Equals(object? obj)

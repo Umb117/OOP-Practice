@@ -15,15 +15,15 @@ public class FileShowCommand : ICommand
         _path = path;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         if (_fileSystemContext.FileSystem is not null)
         {
             string res = _fileSystemContext.FileSystem.ReadAllText(_path);
-            return new Result.Success(res);
+            return new ResultType.Success(res);
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

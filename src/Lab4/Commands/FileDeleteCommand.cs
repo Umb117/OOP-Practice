@@ -13,15 +13,15 @@ public class FileDeleteCommand : ICommand
         _path = path;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         if (_fileSystemContext.FileSystem is not null)
         {
             _fileSystemContext.FileSystem.Delete(_path);
-            return new Result.Success($"Successfully deleted {_path}");
+            return new ResultType.Success($"Successfully deleted {_path}");
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

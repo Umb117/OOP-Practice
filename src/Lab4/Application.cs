@@ -31,7 +31,7 @@ public class Application : IApplication
     {
         while (true)
         {
-            IEnumerable<string> args = _input.GetArgs();
+            IEnumerable<string> args = _input.GetInput();
             using IEnumerator<string> request = args.GetEnumerator();
             ICommand? command = ParseCommand(request);
             if (command is null)
@@ -40,10 +40,10 @@ public class Application : IApplication
                 continue;
             }
 
-            Result result = command.Execute();
-            if (result is Result.Success)
+            ResultType resultType = command.Execute();
+            if (resultType is ResultType.Success)
             {
-                Output.Print(((Result.Success)result).Text);
+                Output.Print(((ResultType.Success)resultType).Text);
             }
         }
     }

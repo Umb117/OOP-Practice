@@ -15,15 +15,15 @@ public class FileMoveCommand : ICommand
         _destinationPath = destinationPath;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         if (_fileSystemContext.FileSystem is not null)
         {
             _fileSystemContext.FileSystem.MoveTo(_sourcePath, _destinationPath);
-            return new Result.Success($"Successfully moved {_sourcePath} to {_destinationPath}");
+            return new ResultType.Success($"Successfully moved {_sourcePath} to {_destinationPath}");
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

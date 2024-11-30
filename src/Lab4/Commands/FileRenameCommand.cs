@@ -15,15 +15,15 @@ public class FileRenameCommand : ICommand
         _name = name;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         if (_fileSystemContext.FileSystem is not null)
         {
             _fileSystemContext.FileSystem.Rename(_path, _name);
-            return new Result.Success($"Successfully renamed");
+            return new ResultType.Success($"Successfully renamed");
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

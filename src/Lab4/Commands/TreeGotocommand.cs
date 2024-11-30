@@ -13,15 +13,15 @@ public class TreeGotocommand : ICommand
         _path = path;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         if (_fileSystemContext.FileSystem is not null)
         {
             _fileSystemContext.FileSystem.SetCurrentPath(_path);
-            return new Result.Success($"Successfully go to {_path}");
+            return new ResultType.Success($"Successfully go to {_path}");
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

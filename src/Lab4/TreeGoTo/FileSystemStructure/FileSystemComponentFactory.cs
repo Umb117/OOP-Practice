@@ -8,16 +8,23 @@ public class FileSystemComponentFactory
         {
             string? name = Path.GetFileName(path);
 
-            IEnumerable<string> names = Directory
-                .EnumerateFileSystemEntries(path)
-                .Select(Path.GetFileName)
-                .Where(x => x is not null)
-                .Cast<string>();
+            string[] entries = Directory.EnumerateFileSystemEntries(path).ToArray();
+            var names = new List<string>();
 
-            IFileSystemComponent[] components = names
-                .Select(entry => Path.Combine(path, entry))
-                .Select(Create)
-                .ToArray();
+            foreach (string entry in entries)
+            {
+                string fileName = Path.GetFileName(entry);
+                if (fileName != null)
+                {
+                    names.Add(fileName);
+                }
+            }
+
+            var components = new IFileSystemComponent[names.Count];
+            for (int i = 0; i < names.Count; i++)
+            {
+                components[i] = Create(Path.Combine(path, names[i]));
+            }
 
             return new DirectoryFileSystemComponent(name ?? string.Empty, components);
         }

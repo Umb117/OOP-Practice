@@ -11,10 +11,10 @@ public class DisconnectCommand : ICommand
         _fileSystemContext = fileSystemContext;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         _fileSystemContext.SetFileSystem(null);
-        return new Result.Success("Successfully disconnected from filesystem");
+        return new ResultType.Success("Successfully disconnected from filesystem");
     }
 
     public override bool Equals(object? obj)

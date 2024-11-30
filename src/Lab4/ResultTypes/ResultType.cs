@@ -1,8 +1,8 @@
 namespace Itmo.ObjectOrientedProgramming.Lab4.Results;
 
-public abstract record Result
+public abstract record ResultType
 {
-    public sealed record Success : Result
+    public sealed record Success : ResultType
     {
         public string Text { get; private set; }
 
@@ -12,7 +12,7 @@ public abstract record Result
         }
     }
 
-    public sealed record NoSuchSystem : Result;
+    public sealed record NoSuchSystem : ResultType;
 
-    public sealed record NoFilesystemConnected : Result;
+    public sealed record NoFilesystemConnected : ResultType;
 }

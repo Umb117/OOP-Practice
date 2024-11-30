@@ -17,7 +17,7 @@ public class TreeListCommand : ICommand
         _depth = depth;
     }
 
-    public Result Execute()
+    public ResultType Execute()
     {
         var factory = new FileSystemComponentFactory();
         if (_path != null)
@@ -27,10 +27,10 @@ public class TreeListCommand : ICommand
 
             component.Accept(visitor);
             string res = visitor.Text;
-            return new Result.Success(res);
+            return new ResultType.Success(res);
         }
 
-        return new Result.NoFilesystemConnected();
+        return new ResultType.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)
