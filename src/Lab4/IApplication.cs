@@ -1,19 +1,14 @@
-using Itmo.ObjectOrientedProgramming.Lab4.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Outputs;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4;
 
 public interface IApplication
 {
-    IFileSystem? FileSystem { get; }
-
-    string? CurrentPath { get; }
+    ApplicationFileSystemContext FileSystem { get; }
 
     IOutput Output { get; }
 
-    void SetFileSystem(IFileSystem? fileSystem);
-
-    void SetCurrentPath(string path);
+    void SetFileSystem(ApplicationFileSystemContext fileSystem);
 
     void SetOutput(IOutput output);
 }

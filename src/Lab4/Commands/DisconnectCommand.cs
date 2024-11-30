@@ -1,18 +1,20 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class DisconnectCommand : ICommand
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public DisconnectCommand(IApplication application)
+    public DisconnectCommand(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        _application.SetFileSystem(null);
-        return "Successfully disconnected from filesystem";
+        _fileSystemContext.SetFileSystem(null);
+        return new Result.Success("Successfully disconnected from filesystem");
     }
 
     public override bool Equals(object? obj)
@@ -27,12 +29,12 @@ public class DisconnectCommand : ICommand
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_application);
+        return HashCode.Combine(_fileSystemContext);
     }
 
     private bool Equals(DisconnectCommand? other)
     {
         if (other == null) return false;
-        return _application == other._application;
+        return _fileSystemContext == other._fileSystemContext;
     }
 }

@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
+using Itmo.ObjectOrientedProgramming.Lab4.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Inputs;
 using Itmo.ObjectOrientedProgramming.Lab4.Outputs;
 using Xunit;
@@ -16,10 +17,11 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new ConnectCommand(app.FileSystem, "local", "C:\\");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new ConnectCommand(app, "local", "C:\\");
 
+        Assert.IsType<ConnectCommand>(command);
         if (command is not null)
             Assert.True(command.Equals(expectedCommand));
     }
@@ -32,9 +34,9 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new DisconnectCommand(app.FileSystem);
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new DisconnectCommand(app);
 
         Assert.IsType<DisconnectCommand>(command);
         if (command is not null)
@@ -49,9 +51,9 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new TreeGotocommand(app.FileSystem, "path");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new TreeGotocommand(app, "path");
 
         Assert.IsType<TreeGotocommand>(command);
         if (command is not null)
@@ -66,10 +68,10 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
-        app.SetCurrentPath("path");
+        app.SetFileSystem(new ApplicationFileSystemContext(null));
+        ICommand expectedCommand = new TreeListCommand(app.FileSystem, 3);
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new TreeListCommand("path", null, 3);
 
         Assert.IsType<TreeListCommand>(command);
         if (command is not null)
@@ -84,10 +86,10 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
-        app.SetCurrentPath("path");
+        app.SetFileSystem(new ApplicationFileSystemContext(new LocalFileSystem("global_path")));
+        ICommand expectedCommand = new FileShowCommand(app.FileSystem, "console", "path");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new FileShowCommand(app, "console", "path");
 
         Assert.IsType<FileShowCommand>(command);
         if (command is not null)
@@ -102,10 +104,10 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
-        app.SetCurrentPath("path");
+        app.SetFileSystem(new ApplicationFileSystemContext(new LocalFileSystem("global_path")));
+        ICommand expectedCommand = new FileMoveCommand(app.FileSystem, "sourcePath", "destinationPath");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new FileMoveCommand("sourcePath", "destinationPath");
 
         Assert.IsType<FileMoveCommand>(command);
         if (command is not null)
@@ -120,9 +122,9 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new FileCopyCommand(app.FileSystem, "path1", "path2");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new FileCopyCommand("path1", "path2");
 
         Assert.IsType<FileCopyCommand>(command);
         if (command is not null)
@@ -137,9 +139,9 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new FileDeleteCommand(app.FileSystem, "path");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new FileDeleteCommand("path");
 
         Assert.IsType<FileDeleteCommand>(command);
         if (command is not null)
@@ -154,9 +156,9 @@ public class AllLab4Tests
         IInput input = new ConsoleInput();
         IOutput output = new ConsoleOutput();
         var app = new Application(input, output);
+        ICommand expectedCommand = new FileRenameCommand(app.FileSystem, "path", "name");
 
         ICommand? command = app.ParseCommand(request);
-        ICommand expectedCommand = new FileRenameCommand("path", "name");
 
         Assert.IsType<FileRenameCommand>(command);
         if (command is not null)

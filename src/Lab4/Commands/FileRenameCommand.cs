@@ -1,29 +1,29 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class FileRenameCommand : ICommand
 {
     private readonly string _path;
     private readonly string _name;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public FileRenameCommand(string path, string name)
+    public FileRenameCommand(ApplicationFileSystemContext fileSystemContext, string path, string name)
     {
+        _fileSystemContext = fileSystemContext;
         _path = path;
         _name = name;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        var fileInfo = new FileInfo(_path);
-        string? dirName = Path.GetDirectoryName(_path);
-        if (dirName is not null)
+        if (_fileSystemContext.FileSystem is not null)
         {
-            string newPath = Path.Combine(dirName, _name);
-            fileInfo.MoveTo(newPath);
-            return $"Successfully renamed {_path} to {newPath}";
+            _fileSystemContext.FileSystem.Rename(_path, _name);
+            return new Result.Success($"Successfully renamed");
         }
 
-        fileInfo.MoveTo(_name);
-        return $"Successfully renamed {_path} to {_name}";
+        return new Result.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

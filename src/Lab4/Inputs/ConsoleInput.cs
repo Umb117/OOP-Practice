@@ -10,6 +10,6 @@ public class ConsoleInput : IInput
             return str.Split(" ");
         }
 
-        return Array.Empty<string>();
+        return [];
     }
 }

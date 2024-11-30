@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerConnect : HandlerBase
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public HandlerConnect(IApplication application)
+    public HandlerConnect(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
     public override ICommand? Handle(IEnumerator<string> request)
@@ -34,7 +34,7 @@ public class HandlerConnect : HandlerBase
         if (request.MoveNext() is false)
             return null;
 
-        ICommand command = new ConnectCommand(_application, request.Current, path);
+        ICommand command = new ConnectCommand(_fileSystemContext, request.Current, path);
         return command;
     }
 }

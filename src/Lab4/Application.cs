@@ -1,8 +1,8 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
-using Itmo.ObjectOrientedProgramming.Lab4.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Inputs;
 using Itmo.ObjectOrientedProgramming.Lab4.Outputs;
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4;
 
@@ -11,9 +11,7 @@ public class Application : IApplication
     private readonly IInput _input;
     private readonly IHandler _parser;
 
-    public IFileSystem? FileSystem { get; private set; }
-
-    public string? CurrentPath { get; private set; }
+    public ApplicationFileSystemContext FileSystem { get; private set; }
 
     public IOutput Output { get; private set; }
 
@@ -21,10 +19,11 @@ public class Application : IApplication
     {
         _input = input;
         Output = output;
-        IHandler handler = new HandlerConnect(this).AddNext(new HandlerDisconnect(this).AddNext(
-            new HandlerTreeGoto(this).AddNext(new HandlerTreeList(this).AddNext(
-                new HandlerFileShow(this).AddNext(new HandlerFileMove().AddNext(
-                    new HandlerFileCopy().AddNext(new HandlerFileDelete().AddNext(new HandlerFileRename()))))))));
+        FileSystem = new ApplicationFileSystemContext(null);
+        IHandler handler = new HandlerConnect(FileSystem).AddNext(new HandlerDisconnect(FileSystem).AddNext(
+            new HandlerTreeGoto(FileSystem).AddNext(new HandlerTreeList(FileSystem).AddNext(
+                new HandlerFileShow(FileSystem).AddNext(new HandlerFileMove(FileSystem).AddNext(
+                    new HandlerFileCopy(FileSystem).AddNext(new HandlerFileDelete(FileSystem).AddNext(new HandlerFileRename(FileSystem)))))))));
         _parser = handler;
     }
 
@@ -34,8 +33,18 @@ public class Application : IApplication
         {
             IEnumerable<string> args = _input.GetArgs();
             using IEnumerator<string> request = args.GetEnumerator();
-            ICommand? comm = ParseCommand(request);
-            Output.Print(comm != null ? comm.Execute() : "No such command");
+            ICommand? command = ParseCommand(request);
+            if (command is null)
+            {
+                Output.Print("No such command");
+                continue;
+            }
+
+            Result result = command.Execute();
+            if (result is Result.Success)
+            {
+                Output.Print(((Result.Success)result).Text);
+            }
         }
     }
 
@@ -45,14 +54,9 @@ public class Application : IApplication
         return comm;
     }
 
-    public void SetFileSystem(IFileSystem? fileSystem)
+    public void SetFileSystem(ApplicationFileSystemContext fileSystem)
     {
         FileSystem = fileSystem;
-    }
-
-    public void SetCurrentPath(string path)
-    {
-        CurrentPath = path;
     }
 
     public void SetOutput(IOutput output)

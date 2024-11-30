@@ -1,21 +1,29 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class FileMoveCommand : ICommand
 {
     private readonly string _sourcePath;
     private readonly string _destinationPath;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public FileMoveCommand(string sourcePath, string destinationPath)
+    public FileMoveCommand(ApplicationFileSystemContext fileSystemContext, string sourcePath, string destinationPath)
     {
+        _fileSystemContext = fileSystemContext;
         _sourcePath = sourcePath;
         _destinationPath = destinationPath;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        var fileInfo = new FileInfo(_sourcePath);
-        fileInfo.MoveTo(_destinationPath);
-        return $"Successfully moved {_sourcePath} to {_destinationPath}";
+        if (_fileSystemContext.FileSystem is not null)
+        {
+            _fileSystemContext.FileSystem.MoveTo(_sourcePath, _destinationPath);
+            return new Result.Success($"Successfully moved {_sourcePath} to {_destinationPath}");
+        }
+
+        return new Result.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerFileShow : HandlerBase
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public HandlerFileShow(IApplication application)
+    public HandlerFileShow(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
     public override ICommand? Handle(IEnumerator<string> request)
@@ -46,7 +46,7 @@ public class HandlerFileShow : HandlerBase
             mode = request.Current;
         }
 
-        ICommand command = new FileShowCommand(_application, mode, path);
+        ICommand command = new FileShowCommand(_fileSystemContext, mode, path);
         return command;
     }
 }

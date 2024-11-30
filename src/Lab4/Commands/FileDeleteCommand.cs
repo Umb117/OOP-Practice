@@ -1,19 +1,27 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class FileDeleteCommand : ICommand
 {
     private readonly string _path;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public FileDeleteCommand(string path)
+    public FileDeleteCommand(ApplicationFileSystemContext fileSystemContext, string path)
     {
+        _fileSystemContext = fileSystemContext;
         _path = path;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        var fileInfo = new FileInfo(_path);
-        fileInfo.Delete();
-        return $"Successfully deleted {_path}";
+        if (_fileSystemContext.FileSystem is not null)
+        {
+            _fileSystemContext.FileSystem.Delete(_path);
+            return new Result.Success($"Successfully deleted {_path}");
+        }
+
+        return new Result.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)

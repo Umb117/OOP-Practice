@@ -4,6 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerFileCopy : HandlerBase
 {
+    private readonly ApplicationFileSystemContext _fileSystemContext;
+
+    public HandlerFileCopy(ApplicationFileSystemContext fileSystemContext)
+    {
+        _fileSystemContext = fileSystemContext;
+    }
+
     public override ICommand? Handle(IEnumerator<string> request)
     {
         request.MoveNext();
@@ -32,7 +39,7 @@ public class HandlerFileCopy : HandlerBase
 
         string destPath = request.Current;
 
-        ICommand command = new FileCopyCommand(curPath, destPath);
+        ICommand command = new FileCopyCommand(_fileSystemContext, curPath, destPath);
         return command;
     }
 }

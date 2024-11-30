@@ -4,6 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerFileDelete : HandlerBase
 {
+    private readonly ApplicationFileSystemContext _fileSystemContext;
+
+    public HandlerFileDelete(ApplicationFileSystemContext fileSystemContext)
+    {
+        _fileSystemContext = fileSystemContext;
+    }
+
     public override ICommand? Handle(IEnumerator<string> request)
     {
         request.MoveNext();
@@ -25,7 +32,7 @@ public class HandlerFileDelete : HandlerBase
         request.MoveNext();
         string path = request.Current;
 
-        ICommand command = new FileDeleteCommand(path);
+        ICommand command = new FileDeleteCommand(_fileSystemContext, path);
         return command;
     }
 }

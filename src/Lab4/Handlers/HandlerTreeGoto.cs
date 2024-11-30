@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerTreeGoto : HandlerBase
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public HandlerTreeGoto(IApplication application)
+    public HandlerTreeGoto(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
     public override ICommand? Handle(IEnumerator<string> request)
@@ -34,7 +34,7 @@ public class HandlerTreeGoto : HandlerBase
 
         string path = request.Current;
 
-        ICommand command = new TreeGotocommand(_application, path);
+        ICommand command = new TreeGotocommand(_fileSystemContext, path);
         return command;
     }
 }

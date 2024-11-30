@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerDisconnect : HandlerBase
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public HandlerDisconnect(IApplication application)
+    public HandlerDisconnect(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
     public override ICommand? Handle(IEnumerator<string> request)
@@ -20,7 +20,7 @@ public class HandlerDisconnect : HandlerBase
             return Next?.Handle(request);
         }
 
-        var command = new DisconnectCommand(_application);
+        var command = new DisconnectCommand(_fileSystemContext);
 
         return command;
     }

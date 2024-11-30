@@ -4,6 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerFileMove : HandlerBase
 {
+    private readonly ApplicationFileSystemContext _fileSystemContext;
+
+    public HandlerFileMove(ApplicationFileSystemContext fileSystemContext)
+    {
+        _fileSystemContext = fileSystemContext;
+    }
+
     public override ICommand? Handle(IEnumerator<string> request)
     {
         request.MoveNext();
@@ -32,7 +39,7 @@ public class HandlerFileMove : HandlerBase
 
         string destPath = request.Current;
 
-        ICommand command = new FileMoveCommand(curPath, destPath);
+        ICommand command = new FileMoveCommand(_fileSystemContext, curPath, destPath);
         return command;
     }
 }

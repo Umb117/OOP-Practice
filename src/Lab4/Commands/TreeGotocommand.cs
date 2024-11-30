@@ -1,20 +1,27 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
+
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class TreeGotocommand : ICommand
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
     private readonly string _path;
 
-    public TreeGotocommand(IApplication application, string path)
+    public TreeGotocommand(ApplicationFileSystemContext fileSystemContext, string path)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
         _path = path;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        _application.SetCurrentPath(_path);
-        return $"Successfully go to {_path}";
+        if (_fileSystemContext.FileSystem is not null)
+        {
+            _fileSystemContext.FileSystem.SetCurrentPath(_path);
+            return new Result.Success($"Successfully go to {_path}");
+        }
+
+        return new Result.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)
@@ -29,12 +36,12 @@ public class TreeGotocommand : ICommand
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_application, _path);
+        return HashCode.Combine(_path);
     }
 
     private bool Equals(TreeGotocommand? other)
     {
         if (other == null) return false;
-        return _application == other._application && _path == other._path;
+        return _path == other._path;
     }
 }

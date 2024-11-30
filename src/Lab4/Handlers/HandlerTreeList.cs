@@ -4,11 +4,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerTreeList : HandlerBase
 {
-    private readonly IApplication _application;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public HandlerTreeList(IApplication application)
+    public HandlerTreeList(ApplicationFileSystemContext fileSystemContext)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
     }
 
     public override ICommand? Handle(IEnumerator<string> request)
@@ -36,7 +36,7 @@ public class HandlerTreeList : HandlerBase
             depthInt = int.Parse(depth);
         }
 
-        ICommand command = new TreeListCommand(_application.CurrentPath, _application.FileSystem?.Path, depthInt);
+        ICommand command = new TreeListCommand(_fileSystemContext, depthInt);
         return command;
     }
 }

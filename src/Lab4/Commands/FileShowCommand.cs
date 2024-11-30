@@ -1,41 +1,29 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Outputs;
+using Itmo.ObjectOrientedProgramming.Lab4.Results;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public class FileShowCommand : ICommand
 {
-    private readonly IApplication _application;
     private readonly string? _mode;
     private readonly string _path;
+    private readonly ApplicationFileSystemContext _fileSystemContext;
 
-    public FileShowCommand(IApplication application, string? mode, string path)
+    public FileShowCommand(ApplicationFileSystemContext fileSystemContext, string? mode, string path)
     {
-        _application = application;
+        _fileSystemContext = fileSystemContext;
         _mode = mode;
         _path = path;
     }
 
-    public string Execute()
+    public Result Execute()
     {
-        if (_mode is not null)
+        if (_fileSystemContext.FileSystem is not null)
         {
-            IOutput output = _mode switch
-            {
-                "console" => new ConsoleOutput(),
-                _ => new ConsoleOutput(),
-            };
-            _application.SetOutput(output);
+            string res = _fileSystemContext.FileSystem.ReadAllText(_path);
+            return new Result.Success(res);
         }
 
-        string res = string.Empty;
-        using StreamReader sr = File.OpenText(_path);
-        while (sr.ReadLine() is { } s)
-        {
-            res += s;
-            res += "\n";
-        }
-
-        return res;
+        return new Result.NoFilesystemConnected();
     }
 
     public override bool Equals(object? obj)
@@ -50,12 +38,12 @@ public class FileShowCommand : ICommand
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_application, _mode, _path);
+        return HashCode.Combine(_mode, _path);
     }
 
     private bool Equals(FileShowCommand? other)
     {
         if (other == null) return false;
-        return _application == other._application && _mode == other._mode && _path == other._path;
+        return _mode == other._mode && _path == other._path;
     }
 }

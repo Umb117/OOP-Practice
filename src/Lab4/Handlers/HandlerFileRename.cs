@@ -4,6 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Handlers;
 
 public class HandlerFileRename : HandlerBase
 {
+    private readonly ApplicationFileSystemContext _fileSystemContext;
+
+    public HandlerFileRename(ApplicationFileSystemContext fileSystemContext)
+    {
+        _fileSystemContext = fileSystemContext;
+    }
+
     public override ICommand? Handle(IEnumerator<string> request)
     {
         request.MoveNext();
@@ -32,7 +39,7 @@ public class HandlerFileRename : HandlerBase
 
         string name = request.Current;
 
-        ICommand command = new FileRenameCommand(path, name);
+        ICommand command = new FileRenameCommand(_fileSystemContext, path, name);
         return command;
     }
 }
